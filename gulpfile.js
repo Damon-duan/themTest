@@ -35,7 +35,7 @@ gulp.task('sass', function () {
 
 // 生成雪碧图任务
 gulp.task('sprite', function () {
-    var spriteFile = gulp.src('public/images/' + theme[key] + '/*.png') // 需要合并的图片地址
+    var spriteFile = gulp.src('public/images/' + theme[key] + '/sprite/*.png') // 需要合并的图片地址
         .pipe(spritesmith({
             imgName: 'images/' + theme[key] + '-sprite.png', // 保存合并后图片的地址
             cssName: 'sprite.scss', // 保存合并后对于css样式的地址
@@ -51,19 +51,21 @@ gulp.task('sprite', function () {
                         hName.push(sprite);
                     }
                 });
-                deName.forEach(function (sprite, i) {
-                    style = ".icon-" + sprite.name + " {" +
-                        "background-image: url('../../" + sprite.escaped_image + "');" +
-                        "background-position: " + sprite.px.offset_x + " " + sprite.px.offset_y + ";" +
-                        "width:" + sprite.px.width + ";" +
-                        "height:" + sprite.px.height + ";" +
-                        "}\n" +
-                        ".icon-" + sprite.name + ":hover {" +
-                        "background-image: url('../../" + hName[i].escaped_image + "');" +
-                        "background-position: " + hName[i].px.offset_x + " " + hName[i].px.offset_y + ";" +
-                        "}\n";
-                    arr.push(style);
-                })
+                for (var i = 0, len = deName.length; i < len; i++) {
+                    style += ".icon-" + deName[i].name + " {";
+                    style += "background-image: url('../../" + deName[i].escaped_image + "');";
+                    style += "background-position: " + deName[i].px.offset_x + " " + deName[i].px.offset_y + ";";
+                    style += "width:" + deName[i].px.width + ";";
+                    style += "height:" + deName[i].px.height + ";";
+                    style += "}\n";
+                    if (hName.length) {
+                        style += ".icon-" + deName[i].name + ":hover {";
+                        style += "background-image: url('../../" + hName[i].escaped_image + "');";
+                        style += "background-position: " + hName[i].px.offset_x + " " + hName[i].px.offset_y + ";";
+                        style += "}\n";
+                    }
+                }
+                arr.push(style);
                 return arr.join("");
             }
         }));
@@ -72,10 +74,17 @@ gulp.task('sprite', function () {
     return merge(imgFile, cssFile);
 });
 
+// 压缩图片任务
+gulp.task('image-watch', function () {
+    return gulp.src('public/images/' + theme[key] + '/*.*')
+        .pipe(imageMin({progressive: true}))
+        .pipe(gulp.dest('./public/images'))
+});
+
 gulp.task('sass-watch', function () {
     gulp.watch(paths.sass, ['sass']);
 });
 
-gulp.task('default', ['sprite'], function () {
+gulp.task('sprite-watch', ['sprite'], function () {
     console.log('运行成功');
 });
