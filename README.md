@@ -19,8 +19,9 @@
 | $theme | $theme变量，存放在variable.scss中，当gulpfile.js中的theme变量改变时，同时设置$theme的值，不是很智能，暂时这样处理 |
 
 # 编译微件SCSS注意事项
-* 微件样式编译需要在制定条件内编辑
+* 微件样式编译需要在指定条件内编辑，以tourist-destina-analysis微件为例：
 ```scss
+// index.scss
 @import '../../../../scss/common';
 
 // base主题的样式
