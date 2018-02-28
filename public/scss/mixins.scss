@@ -1,0 +1,8 @@
+@mixin theme($theme) {
+  @if ($theme == 'base') {
+    @content;
+  }
+  @else if($theme == 'dark') {
+    @content;
+  }
+}

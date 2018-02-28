@@ -1,0 +1,6 @@
+@import '../variable';
+@import '../mixins';
+
+body {
+  background-color: $base-body-bg;
+}

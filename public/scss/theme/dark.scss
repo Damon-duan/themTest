@@ -1,0 +1,8 @@
+@import '../variable';
+@import '../mixins';
+
+@include theme($theme) {
+  body {
+    background-color: $dark-body-bg;
+  }
+}
