@@ -21,8 +21,7 @@
 # 编译微件SCSS注意事项
 * 微件样式编译需要在制定条件内编辑
 ```scss
-@import '../../../../scss/variable';
-@import '../../../../scss/mixins';
+@import '../../../../scss/common';
 
 // base主题的样式
 @if ($theme == 'base') {
